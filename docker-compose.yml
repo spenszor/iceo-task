@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+  iceo-task:
+    image: "iceo-task"
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    volumes:
+      - ./src/main/resources/data.csv:/data.csv
